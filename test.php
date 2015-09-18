@@ -10,14 +10,14 @@ if (isset($_GET['code'])) {
     var_dump($tokens);
 
     // retrieve and update the users DB
-    $str = file_get_contents("users.json");
+    $str = file_get_contents($storedir . "/users.json");
     if ($str) {
 	    $users = json_decode($str, true);
     } else {
 	    $users = array();
     }
     $users[$tokens['userid']] = $tokens;
-    file_put_contents("users.json", json_encode($users));
+    file_put_contents($storedir . "/users.json", json_encode($users));
 
     //Save this token for all future request for this user
     $access_token = $tokens['access_token'];
