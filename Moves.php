@@ -73,7 +73,8 @@
                         $result = curl_exec($ch);
                         curl_close($ch);
                         $token = json_decode($result, True);
-                        return array('access_token' => $token['access_token'], 'refresh_token' => $token['refresh_token']);
+                        //return array('access_token' => $token['access_token'], 'refresh_token' => $token['refresh_token']);
+			return($token);
                 }
                         
 
