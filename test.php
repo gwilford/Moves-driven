@@ -6,6 +6,9 @@ $m = new PHPMoves\Moves(Config::$client_id,Config::$client_secret,Config::$redir
 if (isset($_GET['code'])) {
     $request_token = $_GET['code'];
     $tokens = $m->auth($request_token);
+    // retrieve and merge user profile
+    $profile = $m->get_profile($tokens['access_token']);
+    $info = array_merge($profile, $tokens);
 
     // retrieve and update the users DB
     $str = file_get_contents(Config::$storedir . "/users.json");
@@ -15,11 +18,11 @@ if (isset($_GET['code'])) {
 	    $users = array();
     }
     // supplement the retrieved tokens
-    $tokens['starts_at'] = time();
-    $tokens['expires_at'] = date(DATE_RFC850, $tokens['starts_at'] + $tokens['expires_in']);
+    $info['starts_at'] = time();
+    $info['expires_at'] = date(DATE_RFC850, $info['starts_at'] + $info['expires_in']);
     // ensure the user key is stringified
-    $u = sprintf("%s", $tokens['user_id']);
-    $users[$u] = $tokens;
+    $u = sprintf("%s", $info['user_id']);
+    $users[$u] = $info;
     file_put_contents(Config::$storedir . "/users.json", json_encode($users, JSON_PRETTY_PRINT));
 }
 ?>
