@@ -14,7 +14,12 @@ if (isset($_GET['code'])) {
     } else {
 	    $users = array();
     }
-    $users[$tokens['user_id']] = $tokens;
+    // supplement the retrieved tokens
+    $tokens['starts_at'] = time();
+    $tokens['expires_at'] = date(DATE_RFC850, $tokens['starts_at'] + $tokens['expires_in']);
+    // ensure the user key is stringified
+    $u = sprintf("%s", $tokens['user_id']);
+    $users[$u] = $tokens;
     file_put_contents(Config::$storedir . "/users.json", json_encode($users, JSON_PRETTY_PRINT));
 }
 ?>
