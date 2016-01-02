@@ -41,7 +41,7 @@ foreach($users as $key => $user) {
 	//echo array_keys($moves);
 	$date = new DateTime($user['profile']['firstDate']);
 	// cycle through all *new* dates 1 days at a time
-	while ($date <= $today) {
+	while ($date < $today) {
 		$day = $date->format('Ymd');
 		if (!isset($moves[$day]) || $moves[$day] == "null") {
 			echo $day . ", ";
