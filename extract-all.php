@@ -46,9 +46,10 @@ foreach($users as $key => $user) {
 	// cycle through all dates 1 days at a time
 	while ($date < $today) {
 		$day = $date->format('Ymd');
-		if (!isset($moves[$day]) || $moves[$day] == "null") {
+		if (!isset($moves[$day]) || $moves[$day] == "null" || !isset($moves[$day][0]['lastUpdate'])) {
 			// a new date...
 			echo $day . ", ";
+			//print_r($moves[$day]);
 			$ret = $m->get_range($user['access_token'],
                           		'/user/storyline/daily', $day, $day); 
                         // ratelimit
